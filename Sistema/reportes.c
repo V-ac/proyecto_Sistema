@@ -278,7 +278,6 @@ void buscarRanking(Usuario **lista, int *numUsuarios, char **listaComunidad, int
     }
     else if (auxiliarEncontrados == 1)
     {
-        printf("Un encontrado\n");
         generarRanking(lista, numUsuarios, comunidades[0]);
     }
     else
@@ -296,7 +295,6 @@ void buscarRanking(Usuario **lista, int *numUsuarios, char **listaComunidad, int
 
         if (seleccion > 0 && seleccion <= auxiliarEncontrados)
         {
-            printf("Varios encontrados\n");
             generarRanking(lista, numUsuarios, comunidades[seleccion - 1]);
         }
         else

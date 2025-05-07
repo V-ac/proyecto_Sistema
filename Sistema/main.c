@@ -220,7 +220,7 @@ void menuReportes(Usuario **listaUsuarios, int *numUsuarios, int *ultimoID)
         switch (opcion)
         {
         case 1:
-            printf("Opcion Ver ranking de usuarios por comunidad\n");
+
             if (*numUsuarios == 0)
             {
                 printf("No hay usuarios registrados\n");
@@ -233,12 +233,6 @@ void menuReportes(Usuario **listaUsuarios, int *numUsuarios, int *ultimoID)
             printf("\nIngrese el nombre de la comunidad: ");
             gets(nombreBuscarComunidad);
             nombreBuscarComunidad[strcspn(nombreBuscarComunidad, "\n")] = '\0'; // lo limpiamos de salto de linea
-
-            for (int i = 0; i < numColonias; i++)
-            {
-                printf("%d . %s\n", i + 1, listaColonias[i]);
-            }
-
             char *comunidadesEncontradas[50];
             int encontradosComunidad;
 
