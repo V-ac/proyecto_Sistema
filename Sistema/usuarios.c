@@ -53,7 +53,6 @@ void agregarUsuario(Usuario **lista, int *numUsuario, int *ultimoID)
     // limpiarBuffer();
 
     (*numUsuario)++; // Incrementar contador
-                     // guardarYMostrarNombres(*lista, *numUsuario);
 }
 
 void mostrarListaUsuarios(Usuario *lista, int numUsuario)
@@ -276,4 +275,48 @@ void buscarEliminar(Usuario **lista, int *numUsuario, int *indices, int *encontr
             printf("Operación cancelada\n");
         }
     }
+}
+
+Usuario *buscarComunidad(char **lista, int numColonias, const char *comunidad, char **indices, int *encontrados)
+{
+    *encontrados = 0;
+
+    // Validación de parámetros
+    if (lista == NULL || comunidad == NULL || indices == NULL)
+    {
+        return NULL;
+    }
+
+    // vamos a convertirlas en minusculas para que busque coincidencias sin disticion
+    // Convertir a minúsculas la búsqueda una sola vez
+    char busquedaMinu[50];
+
+    for (int j = 0; comunidad[j]; j++)
+    {
+        busquedaMinu[j] = tolower(comunidad[j]);
+    }
+    busquedaMinu[strlen(comunidad)] = '\0';
+
+    for (int i = 0; i < numColonias; i++)
+    {
+        // Convertir ambos strings a minúsculas para comparar
+        char comunidadMinu[50];
+
+        // Convertir a minúsculas los nombres
+        for (int j = 0; lista[i][j]; j++)
+        {
+            comunidadMinu[j] = tolower(lista[i][j]);
+        }
+        // limpia el buffer
+        comunidadMinu[strlen(lista[i])] = '\0';
+
+        // Buscar coincidencia parcial
+        if (strstr(comunidadMinu, busquedaMinu) != NULL)
+        {
+            // Asignar el nombre de la comunidad al array de índices
+            indices[*encontrados] = (char *)malloc(strlen(lista[i]) + 1);
+            strcpy(indices[(*encontrados)++], lista[i]);
+        }
+    }
+    return NULL;
 }

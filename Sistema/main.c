@@ -221,7 +221,30 @@ void menuReportes(Usuario **listaUsuarios, int *numUsuarios, int *ultimoID)
         {
         case 1:
             printf("Opcion Ver ranking de usuarios por comunidad\n");
-            generarRanking(*listaUsuarios, numUsuarios);
+            if (*numUsuarios == 0)
+            {
+                printf("No hay usuarios registrados\n");
+                break;
+            }
+            char **listaColonias = arregloComunidad(*listaUsuarios, *numUsuarios);
+            int numColonias = obtenerTamano(listaColonias);
+
+            char nombreBuscarComunidad[50];
+            printf("\nIngrese el nombre de la comunidad: ");
+            gets(nombreBuscarComunidad);
+            nombreBuscarComunidad[strcspn(nombreBuscarComunidad, "\n")] = '\0'; // lo limpiamos de salto de linea
+
+            for (int i = 0; i < numColonias; i++)
+            {
+                printf("%d . %s\n", i + 1, listaColonias[i]);
+            }
+
+            char *comunidadesEncontradas[50];
+            int encontradosComunidad;
+
+            buscarComunidad(listaColonias, numColonias, nombreBuscarComunidad, comunidadesEncontradas, &encontradosComunidad);
+            buscarRanking(listaUsuarios, numUsuarios, listaColonias, numColonias, comunidadesEncontradas, &encontradosComunidad);
+            // limpiarBuffer();
             break;
         case 2:
             if (*numUsuarios == 0)

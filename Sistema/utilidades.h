@@ -45,6 +45,8 @@ void buscarModificar(Usuario **lista, int *numUsuario, int *indices, int *encont
 void modificarUsuario(Usuario **lista, int *numUsuario, int posicion);
 void eliminarUsuario(Usuario **lista, int *numUsuario, int posicion);
 void buscarEliminar(Usuario **lista, int *numUsuario, int *indices, int *encontrados);
+Usuario *buscarComunidad(char **lista, int numColonias, const char *comunidad, char **indices, int *encontrados);
+/// char **buscarComunidad(char *lista, int numColonias, const char *comunidad, char **indices, int *encontrados);
 
 // Accciones
 void guardarDatos(Usuario *lista, int numUsuario, int ultimoID);
@@ -62,13 +64,15 @@ char *actividadComun(Usuario *lista, int numUsuario);
 char *comunidadComun(Usuario *lista, int numUsuario);
 
 // Reportes
-void generarRanking(Usuario *lista, int numUsuarios);
+void generarRanking(Usuario **lista, int *numUsuarios, const char *comunidad);
 void generarResumenUsuario(Usuario **lista, int *numUsuario, int posicion);
 void generarReporte(Usuario *lista, int *numUsuario);
 void generarReporteTxT(Usuario *lista, int *numUsuario);
 void mensajeMotivacion(float puntos);
 void buscarGenerar(Usuario **lista, int *numUsuario, int *indices, int *encontrados);
 void obtenerFechaActual(char *fechaActual);
-// void barraHorizontal();
+void buscarRanking(Usuario **lista, int *numUsuarios, char **listaComunidad, int numComunidad, char **comunidades, int *encontrados);
+char **arregloComunidad(Usuario *lista, int numUsuario);
+int obtenerTamano(char **arreglo);
 
 #endif

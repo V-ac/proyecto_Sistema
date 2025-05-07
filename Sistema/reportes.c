@@ -10,32 +10,12 @@
 #include <locale.h> // Para configuración regional
 #include <wchar.h>  // Para caracteres anchos
 #include "utilidades.h"
+#include "ranking.h"
 
-void generarRanking(Usuario *lista, int numUsuarios)
+void generarRanking(Usuario **lista, int *numUsuarios, const char *comunidad)
 {
-    // Estructura que verifica que usuario no esta en null
-    Usuario *copiaLista = lista;
-    // Reporte *usuarioDestacado;
-    if (copiaLista == NULL || numUsuarios == 0)
-    {
-        printf("\nNo hay usuarios registrados.\n");
-        return;
-    }
-    // Ya verificado vamos a acomodar los valores
-    for (int i = 0; i < numUsuarios - 1; i++)
-    {
-        for (int j = 0; j < numUsuarios - i; i++)
-        {
-            if (copiaLista[j].puntosTotalesEcologicos < copiaLista[j + 1].puntosTotalesEcologicos)
-            {
-                // Intercambio de valores
-                Usuario temporal = copiaLista[j];
-                copiaLista[j] = copiaLista[j + 1];
-                copiaLista[j + 1] = temporal;
-            }
-        }
-    }
-    // strcpy(copiaLista[0], usuarioDestacado->usuarioDestactado);
+    // Convertir a UsuarioR* (si son equivalentes)
+    mostrarRanking((UsuarioR *)(*lista), *numUsuarios, comunidad);
 }
 
 void buscarGenerar(Usuario **lista, int *numUsuario, int *indices, int *encontrados)
@@ -287,3 +267,196 @@ void generarReporte(Usuario *lista, int *numUsuario)
     printf("Usuario destacado del mes: %s (%d puntos)\n", usuarioDestacado, puntosUsuarioDestacadoInt);
     printf("Promedio de puntos por usuario: %.2f\n", puntos);
 }
+
+void buscarRanking(Usuario **lista, int *numUsuarios, char **listaComunidad, int numComunidad, char **comunidades, int *encontrados)
+{
+    int auxiliarEncontrados = *encontrados;
+
+    if (auxiliarEncontrados == 0)
+    {
+        printf("\nNo se encontraron comunidades con ese nombre.\n");
+    }
+    else if (auxiliarEncontrados == 1)
+    {
+        printf("Un encontrado\n");
+        generarRanking(lista, numUsuarios, comunidades[0]);
+    }
+    else
+    {
+        printf("\nSe encontraron %d comunidades con nombre parecido:\n", auxiliarEncontrados);
+        for (int i = 0; i < auxiliarEncontrados; i++)
+        {
+            printf("%d. \tComunidad: %s\n", i + 1, comunidades[i]);
+        }
+
+        printf("\nSeleccione el número de comunidad para visualizar el ranking (1-%d): ", auxiliarEncontrados);
+        int seleccion;
+        scanf("%d", &seleccion);
+        limpiarBuffer();
+
+        if (seleccion > 0 && seleccion <= auxiliarEncontrados)
+        {
+            printf("Varios encontrados\n");
+            generarRanking(lista, numUsuarios, comunidades[seleccion - 1]);
+        }
+        else
+        {
+            printf("Selección inválida\n");
+        }
+    }
+}
+
+char **arregloComunidad(Usuario *lista, int numUsuario)
+{
+    if (numUsuario == 0 || lista == NULL)
+    {
+        return NULL;
+    }
+
+    // Reservar memoria para el array de punteros
+    char **listaComunidades = (char **)malloc(50 * sizeof(char *));
+    if (listaComunidades == NULL)
+    {
+        perror("Error al asignar memoria");
+        return NULL;
+    }
+
+    int numComunidades = 0;
+
+    for (int i = 0; i < numUsuario; i++)
+    {
+        int encontrada = 0;
+
+        // Verificar si la comunidad ya está en la lista
+        for (int j = 0; j < numComunidades; j++)
+        {
+            if (strcasecmp(lista[i].comunidad, listaComunidades[j]) == 0)
+            {
+                encontrada = 1;
+                break;
+            }
+        }
+
+        // Si no se encontró y hay espacio, agregar nueva comunidad
+        if (!encontrada && numComunidades < 50)
+        {
+            listaComunidades[numComunidades] = (char *)malloc(50 * sizeof(char));
+            if (listaComunidades[numComunidades] == NULL)
+            {
+                perror("Error al asignar memoria");
+
+                // Liberar memoria asignada hasta ahora
+                for (int k = 0; k < numComunidades; k++)
+                {
+                    free(listaComunidades[k]);
+                }
+                free(listaComunidades);
+                return NULL;
+            }
+
+            strncpy(listaComunidades[numComunidades], lista[i].comunidad, 50 - 1);
+            listaComunidades[numComunidades][50 - 1] = '\0';
+            numComunidades++;
+        }
+    }
+
+    // Añadir marcador de final NULL
+    if (numComunidades < 50)
+    {
+        listaComunidades[numComunidades] = NULL;
+    }
+
+    return listaComunidades;
+}
+
+int obtenerTamano(char **arreglo)
+{
+    int tamano = 0;
+    if (arreglo != NULL)
+    {
+        while (arreglo[tamano] != NULL)
+        {
+            tamano++;
+        }
+    }
+    return tamano;
+}
+
+/*char **arregloComunidad(Usuario *lista, int numUsuario)
+{
+
+    if (numUsuario == 0 || lista == NULL)
+    {
+        return NULL;
+    }
+    char **listaComunidades[COMUNIDAD];
+    int numComunidades = 0;
+    for (int i = 0; i < numUsuario; i++)
+    {
+        int encontrada = 0; // bandera
+
+        for (int j = 0; j < numComunidades; j++)
+        {
+            if (strcasecmp(lista[i].comunidad, *listaComunidades[j]) == 0)
+            {
+                encontrada = 1;
+                break;
+            }
+        }
+
+        // si no se encontró, agrega nueva comunidad
+        if ((encontrada == 0) && (numComunidades < 50))
+        {
+            strncpy(*listaComunidades[numComunidades], lista[i].comunidad, 49);
+            *listaComunidades[numComunidades][49] = '\0'; // Asegurar terminación nula
+            numComunidades++;
+        }
+    }
+
+    return *listaComunidades;
+}
+
+/*
+void buscarRanking(Usuario **lista, int *numUsuario, char **indices, int *encontrados)
+{
+    int auxiliarEncontrados = *encontrados;
+    if (auxiliarEncontrados == 0)
+    {
+        printf("\nNo se encontraron comunidades con ese nombre.\n");
+    }
+    else if (auxiliarEncontrados == 1)
+    {
+        generarRanking(lista, numUsuario, indices[0]);
+    }
+    else
+    {
+
+        printf("\nSe encontraron %d comunidades con nombre parecido:\n", auxiliarEncontrados);
+        for (int i = 0; i < auxiliarEncontrados; i++)
+        {
+            printf("%d. \tComunidad: %s\n", i + 1, comunidades[i]);
+        }
+
+        printf("\nSeleccione el número de comunidad para visualizar el ranking (1-%d): ", auxiliarEncontrados);
+        int seleccion;
+        scanf("%d", &seleccion);
+        limpiarBuffer();
+
+        if (seleccion > 0 && seleccion <= auxiliarEncontrados)
+        {
+            generarRanking(lista, numUsuario, comunidades[seleccion - 1]);
+        }
+        else
+        {
+            printf("Selección inválida\n");
+        }
+    }
+
+    // Liberar memoria de los índices
+    for (int i = 0; i < auxiliarEncontrados; i++)
+    {
+        free(indices[i]);
+    }
+}
+
+*/

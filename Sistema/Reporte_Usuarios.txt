@@ -1,0 +1,28 @@
+
+===================== Reporte General =====================
+Fecha: 2025-05-06
+| ID  | Nombre                              | Comunidad                           | Puntos     | Actividades
+------------------------------------------------------
+| 101 | Veronica Acu                        | Colinas del padre                   | 270.00     | 1    
+| 102 | Agustin Salda                       | SPAUZ                               | 0.00       | 0    
+| 103 | ANGEL ACUNA                         | Colinas del padre                   | 423.00     | 4    
+| 104 | Veronica Juarez                     | Centro                              | 0.00       | 0    
+| 105 | Julia Juarez                        | Colinas del padre                   | 0.00       | 0    
+| 106 | Vero Acuna                          | Centro                              | 0.00       | 0    
+| 108 | jualia baltazar                     | centro                              | 0.00       | 0    
+| 109 | Jocelyn Rivas Garcia                | quintas                             | 0.00       | 0    
+| 110 | Agustin                             | Colinas del grillo                  | 0.00       | 0    
+| 111 | Lolita Cort                         | Colinas                             | 0.00       | 0    
+| 112 | Julia Juarez Baltazar               | Altotonga                           | 0.00       | 0    
+| 113 | Jocelyn Ana                         | Fresnillo                           | 0.00       | 0    
+| 114 | Vero                                | Centro                              | 0.00       | 0    
+| 116 | Angel acu                           | Veracruz                            | 0.00       | 0    
+| 117 | Anegl Acuna                         | Veracruz                            | 0.00       | 0    
+| 118 | Ana Rivas                           | Las lomas                           | 0.00       | 0    
+------------------------------------------------------
+Total usuarios registrados: 16
+Total puntos generados: 693.00
+Actividad más común: Reciclaje
+Comunidad con más usuarios activos: Centro
+Usuario destacado del mes: ANGEL ACUNA (423 puntos)
+Promedio de puntos por usuario: 43.31
